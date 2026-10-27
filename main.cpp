@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "ignore.h"
 // Design a board which updates with each move
 // player 1 choice use O update the index of string based on number chosen
 // player 2 choice use X
@@ -82,8 +83,16 @@ void boardGame(){
         while (playerOneChoice >= 9 || gameBoard[playerOneChoice] != ' '){
             std::cout << "Player #1 choose a square: ";
             std::cin >> playerOneChoice;
+            // handle if the input is 
+            if (extractionFailed()){
+                std::cout << "Invalid input please try again\n";
+                // unsigned int value resets to 0 by default if extraction fails
+                playerOneChoice = 9;
+                continue;
+            }
+            ignoreLine();
             if (playerOneChoice >= 9){
-                std::cout << "Please choose a number between(0-9)\n";
+                std::cout << "Please choose a number between(0-8)\n";
                 continue;
             }
             if (gameBoard [playerOneChoice] != ' '){
@@ -113,8 +122,14 @@ void boardGame(){
         while (playerTwoChoice >= 9 || gameBoard[playerTwoChoice] != ' '){
             std::cout << "Player #2 choose a square: ";
             std::cin >> playerTwoChoice;
+            if (extractionFailed()){
+                std::cout << "Invalid input please try again\n";\
+                playerTwoChoice = 9;
+                continue;
+            }
+            ignoreLine();
             if (playerTwoChoice >= 9){
-                std::cout << "Please choose a number between(0-9)\n";
+                std::cout << "Please choose a number between(0-8)\n";
                 continue;
             }
             if (gameBoard[playerTwoChoice] != ' '){
@@ -140,6 +155,7 @@ bool playAgain(){
     while (input != 'y' && input != 'n'){
         std::cout << "Play the game again(y/n): ";
         std::cin >> input;
+        ignoreLine();
     }
 
     if (input == 'y') return true;
